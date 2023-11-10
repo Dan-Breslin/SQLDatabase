@@ -8,6 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Register extends AppCompatActivity {
 
     EditText name, password, confirm;
@@ -38,11 +41,16 @@ public class Register extends AppCompatActivity {
                     if (password_s.equals(confirm_s)){
                         Boolean checkEmail = db.checkUsername(name_s);
                         if (checkEmail == false){
-                            Boolean insert = db.insert(name_s,password_s);
-                            if (insert==true){
-                                Toast.makeText(getApplicationContext(), "Account Registered", Toast.LENGTH_SHORT).show();
+                            Boolean valEmail = isEmailValid(name_s);
+                            if (valEmail){
+                                Boolean insert = db.insert(name_s,password_s);
+                                if (insert==true){
+                                    Toast.makeText(getApplicationContext(), "Account Registered", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(getApplicationContext(), "Not Registered", Toast.LENGTH_SHORT).show();
+                                }
                             }else{
-                                Toast.makeText(getApplicationContext(), "Not Registered", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Not a Valid Email", Toast.LENGTH_SHORT).show();
                             }
                         }else {
                             Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_SHORT).show();
@@ -53,5 +61,18 @@ public class Register extends AppCompatActivity {
                 }
             }
         });
+    }
+    public static boolean isEmailValid(String email) {
+        boolean isValid = false;
+
+        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+        CharSequence inputStr = email;
+
+        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(inputStr);
+        if (matcher.matches()) {
+            isValid = true;
+        }
+        return isValid;
     }
 }
