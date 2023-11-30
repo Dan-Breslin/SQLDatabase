@@ -56,7 +56,7 @@ public class Register extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "User already exists", Toast.LENGTH_SHORT).show();
                         }
                     }else {
-                        Toast.makeText(getApplicationContext(), "UPasswords don't match", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Passwords don't match", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -65,6 +65,7 @@ public class Register extends AppCompatActivity {
     public static boolean isEmailValid(String email) {
         boolean isValid = false;
 
+        // Code snippet taken from https://stackoverflow.com/questions on Email Validation
         String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
         CharSequence inputStr = email;
 
